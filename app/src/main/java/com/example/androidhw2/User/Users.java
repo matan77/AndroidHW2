@@ -15,4 +15,8 @@ public class Users {
     public void setUsers(List<User> users) {
         this.users = users;
     }
+
+    public User getFirstUser(){
+        return users.get(0);
+    }
 }
