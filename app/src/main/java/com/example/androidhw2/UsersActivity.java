@@ -8,13 +8,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidhw2.UserDb.User;
 import com.example.androidhw2.UserDb.UserDatabase;
+import com.example.androidhw2.databinding.ActivityMainBinding;
+import com.example.androidhw2.databinding.ActivityUsersBinding;
 
 import java.util.List;
 
 public class UsersActivity extends AppCompatActivity {
+
+    private ActivityUsersBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,10 +32,20 @@ public class UsersActivity extends AppCompatActivity {
             return insets;
         });
 
+        binding = ActivityUsersBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+
+        binding.usersRecyclerView.setLayoutManager(new LinearLayoutManager(this,
+                RecyclerView.VERTICAL,false));
+        binding.usersRecyclerView.setHasFixedSize(true);
+
+
+
+
+
         UserDatabase db = UserDatabase.getInstance(this);
         List<User> users = db.userDao().getAll();
-        for (User user : users) {
-            Log.d("ROOM_TEST", user.toString());
-        }
+        binding.usersRecyclerView.setAdapter(new UsersRecyclerViewAdapter(users));
     }
 }

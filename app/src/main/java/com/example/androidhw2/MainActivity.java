@@ -12,6 +12,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.androidhw2.UserApi.*;
 import com.example.androidhw2.UserApi.User;
 import com.example.androidhw2.databinding.ActivityMainBinding;
@@ -99,7 +100,10 @@ public class MainActivity extends AppCompatActivity {
                     binding.tvCity.setText(String.format("City: %s", curr.city));
                     binding.tvCountry.setText(String.format("Country: %s", curr.country));
 
-                    Glide.with(binding.getRoot()).load(curr.imageUrl).into(binding.imgVProfile);
+                    Glide.with(binding.getRoot()).load(curr.imageUrl)
+                            .placeholder(android.R.drawable.ic_menu_gallery)
+                            .error(android.R.drawable.ic_menu_gallery)
+                            .into(binding.imgVProfile);
                 } else {
                     curr = null;
                     setErrorUser();
