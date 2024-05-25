@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.androidhw2.UserApi.*;
+import com.example.androidhw2.UserApi.User;
 import com.example.androidhw2.databinding.ActivityMainBinding;
 
 import java.util.Locale;
@@ -22,10 +23,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
+import com.example.androidhw2.UserDb.*;
+
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private User curr;
+    private com.example.androidhw2.UserDb.User curr;
+    private UserDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,18 +45,19 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        db = UserDatabase.getInstance(this);
 
         binding.btnNext.setOnClickListener(v -> fetchUser());
 
         binding.btnAdd.setOnClickListener(v -> {
-            if (curr == null){
-                Toast.makeText(this, "It is currently not possible to add to the collection", Toast.LENGTH_SHORT).show();            }
-            else{
-                //todo add to db
+            if (curr == null) {
+                Toast.makeText(this, "It is currently not possible to add to the collection", Toast.LENGTH_SHORT).show();
+            } else {
+                db.userDao().insetUser(curr);
             }
         });
 
-        binding.btnViewUsers.setOnClickListener(v ->{
+        binding.btnViewUsers.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, UsersActivity.class);
             startActivity(intent);
         });
@@ -76,16 +81,25 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<Users> call, @NonNull Response<Users> response) {
                 Users users = response.body();
                 if (users != null && users.getUsers() != null && !users.getUsers().isEmpty()) {
-                    curr = users.getUsers().get(0);
+                    User user = users.getUsers().get(0);
 
-                    binding.tvFirstName.setText(curr.getName().getFirst());
-                    binding.tvLastName.setText(curr.getName().getLast());
-                    binding.tvAge.setText(String.format(Locale.getDefault(), "Age: %d", curr.getDob().getAge()));
-                    binding.tvEmail.setText(String.format("Email: %s", curr.getEmail()));
-                    binding.tvCity.setText(String.format("City: %s", curr.getLocation().getCity()));
-                    binding.tvCountry.setText(String.format("Country: %s", curr.getLocation().getCountry()));
+                    curr = new com.example.androidhw2.UserDb.User();
+                    curr.firstName = user.getName().getFirst();
+                    curr.lastName = user.getName().getLast();
+                    curr.age = user.getDob().getAge();
+                    curr.email = user.getEmail();
+                    curr.city = user.getLocation().getCity();
+                    curr.country = user.getLocation().getCountry();
+                    curr.imageUrl = user.getPicture().getLarge();
 
-                    Glide.with(binding.getRoot()).load(curr.getPicture().getLarge()).into(binding.imgVProfile);
+                    binding.tvFirstName.setText(curr.firstName);
+                    binding.tvLastName.setText(curr.lastName);
+                    binding.tvAge.setText(String.format(Locale.getDefault(), "Age: %d", curr.age));
+                    binding.tvEmail.setText(String.format("Email: %s", curr.email));
+                    binding.tvCity.setText(String.format("City: %s", curr.city));
+                    binding.tvCountry.setText(String.format("Country: %s", curr.country));
+
+                    Glide.with(binding.getRoot()).load(curr.imageUrl).into(binding.imgVProfile);
                 } else {
                     curr = null;
                     setErrorUser();
@@ -97,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Call<Users> call, @NonNull Throwable throwable) {
                 setErrorUser();
+                curr = null;
                 toggleButtons(true);
             }
         });
