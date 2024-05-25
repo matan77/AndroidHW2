@@ -1,6 +1,5 @@
 package com.example.androidhw2.User;
 
-import java.util.Date;
 
 public class Dob {
     private int age;

@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">AndroidHW2</string>
+    <string name="profile">profile</string>
+    <string name="next_user">See next user</string>
+    <string name="add_user">Add this user to collection</string>
+    <string name="view_collection">View collection</string>
+    <string name="error">Error</string>
+    <string name="users">Users</string>
 </resources>
