@@ -1,4 +1,4 @@
-package com.example.androidhw2.User;
+package com.example.androidhw2.UserApi;
 
 public class Picture {
     private String large;

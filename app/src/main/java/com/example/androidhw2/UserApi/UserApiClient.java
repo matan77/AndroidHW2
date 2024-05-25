@@ -1,4 +1,4 @@
-package com.example.androidhw2.User;
+package com.example.androidhw2.UserApi;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;

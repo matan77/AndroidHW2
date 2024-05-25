@@ -2,7 +2,6 @@ package com.example.androidhw2;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -13,7 +12,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
-import com.example.androidhw2.User.*;
+import com.example.androidhw2.UserApi.*;
 import com.example.androidhw2.databinding.ActivityMainBinding;
 
 import java.util.Locale;

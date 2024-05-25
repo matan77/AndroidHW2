@@ -1,4 +1,4 @@
-package com.example.androidhw2.User;
+package com.example.androidhw2.UserApi;
 
 import retrofit2.http.GET;
 import retrofit2.Call;

@@ -1,6 +1,4 @@
-package com.example.androidhw2.User;
-
-import com.google.gson.annotations.SerializedName;
+package com.example.androidhw2.UserApi;
 
 public class User {
 

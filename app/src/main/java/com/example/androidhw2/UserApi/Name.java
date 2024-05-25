@@ -1,4 +1,4 @@
-package com.example.androidhw2.User;
+package com.example.androidhw2.UserApi;
 
 public class Name {
     private String first;
